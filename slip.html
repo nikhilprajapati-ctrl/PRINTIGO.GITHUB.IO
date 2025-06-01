@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PRINTIGO</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .form-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      width: 45%;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 7px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .btn {
+      margin: 30px auto;
+      display: block;
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Print area styling */
+    #printArea {
+      display: none;
+    }
+
+    @media print {
+      body * {
+        display: none !important;
+      }
+
+      #printArea, #printArea * {
+        display: block !important;
+      }
+
+      #printArea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .slip {
+        width: 100%;
+        height: 48%;
+        box-sizing: border-box;
+        border: 2px solid black;
+        padding: 15px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        page-break-inside: avoid;
+      }
+
+      .slip h3 {
+        text-align: center;
+        margin-bottom: 10px;
+        border-bottom: 1px solid black;
+        padding-bottom: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Courier Slip Generator<BR> ENTER THE DETAILS REQUIRED</h2>
+
+<div class="form-container">
+  <div class="form-box">
+    <h3>Slip 1</h3>
+    <label>Customer Name</label>
+    <input type="text" id="name1" required>
+    <label>Customer Phone</label>
+    <input type="text" id="phone1">
+    <label>Address Line 1</label>
+    <input type="text" id="addr1_1">
+    <label>Address Line 2</label>
+    <input type="text" id="addr1_2">
+    <label>State</label>
+    <select id="state1">
+      <option value="">Select State</option>
+        <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+      <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+      <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+      <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+      <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+      <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+      <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+      <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+      <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+      <option>West Bengal</option><option>Delhi</option><option>Puducherry</option>
+    </select>
+    <label>PIN Code</label>
+    <input type="text" id="pin1">
+    <label>Date</label>
+    <input type="date" id="date1">
+  </div>
+
+  <div class="form-box">
+    <h3>Slip 2</h3>
+    <label>Customer Name</label>
+    <input type="text" id="name2" required>
+    <label>Customer Phone</label>
+    <input type="text" id="phone2">
+    <label>Address Line 1</label>
+    <input type="text" id="addr2_1">
+    <label>Address Line 2</label>
+    <input type="text" id="addr2_2">
+    <label>State</label>
+    <select id="state2">
+      <option value="">Select State</option>
+        <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+      <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+      <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+      <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+      <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+      <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+      <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+      <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+      <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+      <option>West Bengal</option><option>Delhi</option><option>Puducherry</option>
+    </select>
+    <label>PIN Code</label>
+    <input type="text" id="pin2">
+    <label>Date</label>
+    <input type="date" id="date2">
+  </div>
+</div>
+
+<button class="btn" onclick="generateSlips()">Print Slips</button>
+
+<div id="printArea">
+  <div class="slip" id="slip1"></div>
+  <div class="slip" id="slip2"></div>
+</div>
+
+<script>
+  const myName = "Your Courier Company";
+  const myPhone = "9876543210";
+
+  function generateSlips() {
+    const slip1 = {
+      name: document.getElementById('name1').value,
+      phone: document.getElementById('phone1').value,
+      addr1: document.getElementById('addr1_1').value,
+      addr2: document.getElementById('addr1_2').value,
+      state: document.getElementById('state1').value,
+      pin: document.getElementById('pin1').value,
+      date: document.getElementById('date1').value
+    };
+
+    const slip2 = {
+      name: document.getElementById('name2').value,
+      phone: document.getElementById('phone2').value,
+      addr1: document.getElementById('addr2_1').value,
+      addr2: document.getElementById('addr2_2').value,
+      state: document.getElementById('state2').value,
+      pin: document.getElementById('pin2').value,
+      date: document.getElementById('date2').value
+    };
+
+    document.getElementById('slip1').innerHTML = formatSlip(slip1);
+    document.getElementById('slip2').innerHTML = formatSlip(slip2);
+
+    // show print area and trigger print
+    document.getElementById('printArea').style.display = 'block';
+
+    setTimeout(() => {
+      window.print();
+      document.getElementById('printArea').style.display = 'none';
+    }, 300); // small delay to ensure rendering
+  }
+
+  function formatSlip(data) {
+    return `
+      <h3>COURIER SLIP</h3>
+      <p><strong>Customer Name:</strong> ${data.name}</p>
+      <p><strong>Phone Number:</strong> ${data.phone}</p>
+      <p><strong>Address:</strong> ${data.addr1}, ${data.addr2}</p>
+      <p><strong>State:</strong> ${data.state}</p>
+      <p><strong>PIN Code:</strong> ${data.pin}</p>
+      <p><strong>Date:</strong> ${data.date}</p>
+      <hr>
+      <p><strong>From:</strong> ${myName}</p>
+      <p><strong>Phone:</strong> ${myPhone}</p>
+    `;
+  }
+</script>
+
+</body>
+</html>
